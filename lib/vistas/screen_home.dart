@@ -10,6 +10,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -79,11 +80,15 @@ class HomeScreen extends StatelessWidget {
 class BackgroundPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
+    final backgroundPaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), backgroundPaint);
+
     final paint = Paint()
       ..color = Colors.deepPurple
       ..style = PaintingStyle.fill;
 
-    // Draw irregular circles
     final path1 = Path()
       ..addOval(Rect.fromCircle(center: Offset(size.width * 0.2, size.height * 0.15), radius: 50))
       ..addOval(Rect.fromCircle(center: Offset(size.width * 0.8, size.height * 0.22), radius: 70))
