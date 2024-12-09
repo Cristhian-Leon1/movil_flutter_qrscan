@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:movil_flutter_qrscan/vistas/screen_alimentos_qr.dart';
 import 'package:provider/provider.dart';
 import 'package:movil_flutter_qrscan/vistas/screen_home.dart';
 import 'package:movil_flutter_qrscan/providers/provider_qr_scanner.dart';
+import 'package:movil_flutter_qrscan/vistas/screen_scanner.dart';
+import 'package:movil_flutter_qrscan/vistas/screen_verificacion_alimentos.dart';
 import 'package:flutter/services.dart';
 
 void main() {
@@ -33,7 +36,28 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const HomeScreen(),
+        initialRoute: '/home_screen',
+        routes: {
+          '/home_screen': (context) => const HomeScreen(),
+          '/scanner_screen': (context) => const QRScannerScreen(),
+          '/verificacion_screen': (context) => const VerificionScreen(),
+        },
+        onGenerateRoute: (settings) {
+          if (settings.name == '/alimentos_screen') {
+            final args = settings.arguments as Map<String, dynamic>;
+            final qrCode = args['qrCode'] as String;
+            final hasPerroOhamburguesa = args['hasPerroOhamburguesa'] as bool;
+            final responseData = args['responseData'] as Map<String, dynamic>;
+            return MaterialPageRoute(
+              builder: (context) => AlimentosScreen(
+                qrCode: qrCode,
+                hasPerroOhamburguesa: hasPerroOhamburguesa,
+                responseData: responseData,
+              ),
+            );
+          }
+          return null;
+        },
       ),
     );
   }
