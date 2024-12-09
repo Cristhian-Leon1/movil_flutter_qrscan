@@ -113,38 +113,38 @@ class _AlimentosScreenState extends State<AlimentosScreen> {
                                   case 0:
                                     title = 'Almuerzo';
                                     icon = Icons.restaurant;
-                                    isDelivered = responseData['almuerzo2'];
-                                    attribute = 'almuerzo2';
+                                    isDelivered = responseData['almuerzo1'];
+                                    attribute = 'almuerzo1';
                                     break;
                                   case 1:
                                     title = 'Cerveza 3';
                                     icon = Icons.local_drink;
-                                    isDelivered = responseData['cerveza3'];
-                                    attribute = 'cerveza3';
+                                    isDelivered = responseData['cerveza1'];
+                                    attribute = 'cerveza1';
                                     break;
                                   case 2:
                                     title = 'Cerveza 4';
                                     icon = Icons.local_drink;
-                                    isDelivered = responseData['cerveza4'];
-                                    attribute = 'cerveza4';
+                                    isDelivered = responseData['cerveza2'];
+                                    attribute = 'cerveza2';
                                     break;
                                   case 3:
                                     title = 'Helado';
                                     icon = Icons.icecream;
-                                    isDelivered = responseData['helado2'];
-                                    attribute = 'helado2';
+                                    isDelivered = responseData['helado1'];
+                                    attribute = 'helado1';
                                     break;
                                   case 4:
                                     title = 'Empanada';
                                     icon = Icons.fastfood;
-                                    isDelivered = responseData['empanada2'];
-                                    attribute = 'empanada2';
+                                    isDelivered = responseData['empanada1'];
+                                    attribute = 'empanada1';
                                     break;
                                   case 5:
                                     title = 'Postre';
                                     icon = Icons.cake;
-                                    isDelivered = responseData['postre2'];
-                                    attribute = 'postre2';
+                                    isDelivered = responseData['postre1'];
+                                    attribute = 'postre1';
                                     break;
                                   default:
                                     title = 'Otro';
