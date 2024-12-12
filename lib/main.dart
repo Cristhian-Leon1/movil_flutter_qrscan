@@ -42,22 +42,30 @@ class MyApp extends StatelessWidget {
           '/scanner_screen': (context) => const QRScannerScreen(),
           '/verificacion_screen': (context) => const VerificionScreen(),
         },
-        onGenerateRoute: (settings) {
-          if (settings.name == '/alimentos_screen') {
-            final args = settings.arguments as Map<String, dynamic>;
-            final qrCode = args['qrCode'] as String;
-            final hasPerroOhamburguesa = args['hasPerroOhamburguesa'] as bool;
-            final responseData = args['responseData'] as Map<String, dynamic>;
-            return MaterialPageRoute(
-              builder: (context) => AlimentosScreen(
-                qrCode: qrCode,
-                hasPerroOhamburguesa: hasPerroOhamburguesa,
-                responseData: responseData,
-              ),
-            );
+          onGenerateRoute: (settings) {
+            if (settings.name == '/alimentos_screen') {
+              final args = settings.arguments as Map<String, dynamic>;
+              final qrCode = args['qrCode'] as String;
+              final hasPerroOhamburguesa = args['hasPerroOhamburguesa'] as bool;
+              final responseData = args['responseData'] as Map<String, dynamic>;
+              final showSecondAccordionItem = args['showSecondAccordionItem'] as bool;
+              final showSecondAccordionItem2 = args['showSecondAccordionItem2'] as bool;
+              final hasPerroOhamburguesa2 = args['hasPerroOhamburguesa2'] as bool;
+              final isNumRif666 = args['isNumRif666'] as bool;
+              return MaterialPageRoute(
+                builder: (context) => AlimentosScreen(
+                  qrCode: qrCode,
+                  hasPerroOhamburguesa: hasPerroOhamburguesa,
+                  responseData: responseData,
+                  showSecondAccordionItem: showSecondAccordionItem,
+                  showSecondAccordionItem2: showSecondAccordionItem2,
+                  hasPerroOhamburguesa2: hasPerroOhamburguesa2,
+                  isNumRif666: isNumRif666,
+                ),
+              );
+            }
+            return null;
           }
-          return null;
-        },
       ),
     );
   }
