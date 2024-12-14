@@ -81,333 +81,201 @@ class _AlimentosScreenState extends State<AlimentosScreen> {
               painter: BackgroundPainter(),
             ),
             SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Center(
-                  child: Column(
-                    children: [
-                      const Card(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        elevation: 5,
-                        color: Colors.white70,
-                        child: Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Text(
-                            'Pulse sobre cada tarjeta de alimento para marcar como alimento entregado',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+              child: Column(
+                children: [
+                  const Card(
+                    margin: EdgeInsets.only(left: 30, right: 30, top: 15),
+                    elevation: 5,
+                    color: Colors.white70,
+                    child: Padding(
+                      padding: EdgeInsets.all(30),
+                      child: Text(
+                        'Pulse sobre cada tarjeta de alimento para marcar como alimento entregado',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      if (!widget.isNumRif666) ...[
-                        const SizedBox(height: 16),
-                        Card(
-                          margin: const EdgeInsets.only(left: 10, right: 10),
-                          elevation: 5,
-                          color: Colors.white70,
-                          child: Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                const Text(
-                                  'Número de rifa',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  responseData['numRif'].toString(),
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Card(
-                          margin: const EdgeInsets.only(left: 10, right: 10),
-                          elevation: 5,
-                          color: Colors.white70,
-                          child: Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                const Text(
-                                  'Asistencia',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          if (!widget.isNumRif666) ...[
+                            const SizedBox(height: 16),
+                            Card(
+                              margin: const EdgeInsets.only(left: 10, right: 10),
+                              elevation: 5,
+                              color: Colors.white70,
+                              child: Padding(
+                                padding: const EdgeInsets.all(20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
                                   children: [
                                     const Text(
-                                      'Estado:',
+                                      'Número de rifa',
+                                      textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                       ),
                                     ),
-                                    const SizedBox(width: 10),
-                                    Switch(
-                                      value: responseData['asistencia'] ?? false,
-                                      onChanged: (bool newValue) async {
-                                        await Provider.of<QRScannerProvider>(context, listen: false)
-                                            .toggleAttribute(context, widget.qrCode, 'asistencia', responseData['asistencia']);
-                                        setState(() {
-                                          responseData['asistencia'] = newValue;
-                                        });
-                                      },
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      responseData['numRif'].toString(),
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                      Accordion(
-                        maxOpenSections: 1,
-                        headerBackgroundColor: Colors.deepPurple,
-                        headerPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                        children: [
-                          AccordionSection(
-                            isOpen: true,
-                            header: Text(widget.qrCode,
-                              style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            headerBackgroundColor: Colors.deepPurple,
-                            contentBorderColor: Colors.deepPurple,
-                            contentBackgroundColor: Colors.transparent,
-                            content: GridView.builder(
-                              shrinkWrap: true,
-                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 13.0,
-                                mainAxisSpacing: 13.0,
                               ),
-                              itemCount: 9,
-                              itemBuilder: (context, index) {
-                                String title;
-                                IconData icon;
-                                bool isDelivered;
-                                String attribute;
-
-                                switch (index) {
-                                  case 0:
-                                    title = 'Almuerzo';
-                                    icon = Icons.restaurant;
-                                    isDelivered = responseData['almuerzo1'];
-                                    attribute = 'almuerzo1';
-                                    break;
-                                  case 1:
-                                    title = 'Gaseosa';
-                                    icon = Icons.local_drink_rounded;
-                                    isDelivered = responseData['gaseosa1'];
-                                    attribute = 'almuerzo1';
-                                    break;
-                                  case 2:
-                                    title = 'Cerveza';
-                                    icon = Icons.local_drink;
-                                    isDelivered = responseData['cerveza1'];
-                                    attribute = 'cerveza1';
-                                    break;
-                                  case 3:
-                                    title = 'Cerveza';
-                                    icon = Icons.local_drink;
-                                    isDelivered = responseData['cerveza2'];
-                                    attribute = 'cerveza2';
-                                    break;
-                                  case 4:
-                                    title = 'Cerveza';
-                                    icon = Icons.local_drink;
-                                    isDelivered = responseData['cerveza3'];
-                                    attribute = 'cerveza3';
-                                    break;
-                                  case 5:
-                                    title = 'Cerveza';
-                                    icon = Icons.local_drink;
-                                    isDelivered = responseData['cerveza4'];
-                                    attribute = 'cerveza4';
-                                    break;
-                                  case 6:
-                                    title = 'Helado';
-                                    icon = Icons.icecream;
-                                    isDelivered = responseData['helado1'];
-                                    attribute = 'helado1';
-                                    break;
-                                  case 7:
-                                    title = 'Empanada';
-                                    icon = Icons.fastfood;
-                                    isDelivered = responseData['empanada1'];
-                                    attribute = 'empanada1';
-                                    break;
-                                  case 8:
-                                    title = 'Postre';
-                                    icon = Icons.cake;
-                                    isDelivered = responseData['postre1'];
-                                    attribute = 'postre1';
-                                    break;
-                                  default:
-                                    return const SizedBox.shrink();
-                                }
-
-                                return GestureDetector(
-                                  onTap: () {
-                                    toggleAttribute(attribute);
-                                  },
-                                  child: CardAlimento(
-                                    title: title,
-                                    icon: icon,
-                                    isDelivered: isDelivered,
-                                    onTap: () {
-                                      toggleAttribute(attribute);
-                                    },
-                                  ),
-                                );
-                              },
                             ),
-                          ),
-                          if (showSecondAccordionItem)
-                            AccordionSection(
-                              isOpen: true,
-                              header: Text('Acompañante (${hasPerroOhamburguesa ? 'niño' : 'adulto'})',
-                                style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                              headerBackgroundColor: Colors.deepPurple,
-                              contentBorderColor: Colors.deepPurple,
-                              content: GridView.builder(
-                                shrinkWrap: true,
-                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 13.0,
-                                  mainAxisSpacing: 13.0,
+                            const SizedBox(height: 16),
+                            Card(
+                              margin: const EdgeInsets.only(left: 10, right: 10),
+                              elevation: 5,
+                              color: Colors.white70,
+                              child: Padding(
+                                padding: const EdgeInsets.all(20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  children: [
+                                    const Text(
+                                      'Asistencia',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const Text(
+                                          'Estado:',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Switch(
+                                          value: responseData['asistencia'] ?? false,
+                                          onChanged: (bool newValue) async {
+                                            await Provider.of<QRScannerProvider>(context, listen: false)
+                                                .toggleAttribute(context, widget.qrCode, 'asistencia', responseData['asistencia']);
+                                            setState(() {
+                                              responseData['asistencia'] = newValue;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                                itemCount: hasPerroOhamburguesa ? 5 : 9,
-                                itemBuilder: (context, index) {
-                                  String title;
-                                  IconData icon;
-                                  bool isDelivered;
-                                  String attribute;
-
-                                  if (hasPerroOhamburguesa) {
-                                    switch (index) {
-                                      case 0:
-                                        title = 'Perro o hamburguesa';
-                                        icon = Icons.fastfood;
-                                        isDelivered = responseData['perroOhamburguesa1'];
-                                        attribute = 'perroOhamburguesa1';
-                                        break;
-                                      case 1:
-                                        title = 'Gaseosa';
-                                        icon = Icons.local_drink;
-                                        isDelivered = responseData['gaseosa2'];
-                                        attribute = 'gaseosa2';
-                                        break;
-                                      case 2:
-                                        title = 'Helado';
-                                        icon = Icons.icecream;
-                                        isDelivered = responseData['helado2'];
-                                        attribute = 'helado2';
-                                        break;
-                                      case 3:
-                                        title = 'Empanada';
-                                        icon = Icons.fastfood;
-                                        isDelivered = responseData['empanada2'];
-                                        attribute = 'empanada2';
-                                        break;
-                                      case 4:
-                                        title = 'Postre';
-                                        icon = Icons.cake;
-                                        isDelivered = responseData['postre2'];
-                                        attribute = 'postre2';
-                                        break;
-                                      default:
-                                        return const SizedBox.shrink();
-                                    }
-                                  } else {
+                              ),
+                            ),
+                          ],
+                          Accordion(
+                            maxOpenSections: 1,
+                            headerBackgroundColor: Colors.deepPurple,
+                            headerPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                            children: [
+                              AccordionSection(
+                                isOpen: true,
+                                header: Text(widget.qrCode,
+                                  style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                headerBackgroundColor: Colors.deepPurple,
+                                contentBorderColor: Colors.deepPurple,
+                                contentBackgroundColor: Colors.transparent,
+                                content: GridView.builder(
+                                  shrinkWrap: true,
+                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 13.0,
+                                    mainAxisSpacing: 13.0,
+                                  ),
+                                  itemCount: 9,
+                                  itemBuilder: (context, index) {
+                                    String title;
+                                    IconData icon;
+                                    bool isDelivered;
+                                    String attribute;
+                  
                                     switch (index) {
                                       case 0:
                                         title = 'Almuerzo';
                                         icon = Icons.restaurant;
-                                        isDelivered = responseData['almuerzo2'];
-                                        attribute = 'almuerzo2';
+                                        isDelivered = responseData['almuerzo1'];
+                                        attribute = 'almuerzo1';
                                         break;
                                       case 1:
                                         title = 'Gaseosa';
                                         icon = Icons.local_drink_rounded;
-                                        isDelivered = responseData['gaseosa2'];
-                                        attribute = 'almuerzo2';
+                                        isDelivered = responseData['gaseosa1'];
+                                        attribute = 'almuerzo1';
                                         break;
                                       case 2:
                                         title = 'Cerveza';
                                         icon = Icons.local_drink;
-                                        isDelivered = responseData['cerveza5'];
-                                        attribute = 'cerveza5';
+                                        isDelivered = responseData['cerveza1'];
+                                        attribute = 'cerveza1';
                                         break;
                                       case 3:
                                         title = 'Cerveza';
                                         icon = Icons.local_drink;
-                                        isDelivered = responseData['cerveza6'];
-                                        attribute = 'cerveza6';
+                                        isDelivered = responseData['cerveza2'];
+                                        attribute = 'cerveza2';
                                         break;
                                       case 4:
                                         title = 'Cerveza';
                                         icon = Icons.local_drink;
-                                        isDelivered = responseData['cerveza7'];
-                                        attribute = 'cerveza7';
+                                        isDelivered = responseData['cerveza3'];
+                                        attribute = 'cerveza3';
                                         break;
                                       case 5:
                                         title = 'Cerveza';
                                         icon = Icons.local_drink;
-                                        isDelivered = responseData['cerveza8'];
-                                        attribute = 'cerveza8';
+                                        isDelivered = responseData['cerveza4'];
+                                        attribute = 'cerveza4';
                                         break;
                                       case 6:
                                         title = 'Helado';
                                         icon = Icons.icecream;
-                                        isDelivered = responseData['helado2'];
-                                        attribute = 'helado2';
+                                        isDelivered = responseData['helado1'];
+                                        attribute = 'helado1';
                                         break;
                                       case 7:
                                         title = 'Empanada';
                                         icon = Icons.fastfood;
-                                        isDelivered = responseData['empanada2'];
-                                        attribute = 'empanada2';
+                                        isDelivered = responseData['empanada1'];
+                                        attribute = 'empanada1';
                                         break;
                                       case 8:
                                         title = 'Postre';
                                         icon = Icons.cake;
-                                        isDelivered = responseData['postre2'];
-                                        attribute = 'postre2';
+                                        isDelivered = responseData['postre1'];
+                                        attribute = 'postre1';
                                         break;
                                       default:
                                         return const SizedBox.shrink();
                                     }
-                                  }
-
-                                  return GestureDetector(
-                                    onTap: () {
-                                      toggleAttribute(attribute);
-                                    },
+                  
+                                    return GestureDetector(
+                                      onTap: () {
+                                        toggleAttribute(attribute);
+                                      },
                                       child: CardAlimento(
                                         title: title,
                                         icon: icon,
@@ -416,149 +284,285 @@ class _AlimentosScreenState extends State<AlimentosScreen> {
                                           toggleAttribute(attribute);
                                         },
                                       ),
-                                  );
-                                },
-                              ),
-                            ),
-                          if (showSecondAccordionItem2)
-                            AccordionSection(
-                              isOpen: true,
-                              header: Text('Acompañante (${hasPerroOhamburguesa2 ? 'niño' : 'adulto'})',
-                                style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                              headerBackgroundColor: Colors.deepPurple,
-                              contentBorderColor: Colors.deepPurple,
-                              content: GridView.builder(
-                                shrinkWrap: true,
-                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 13.0,
-                                  mainAxisSpacing: 13.0,
+                                    );
+                                  },
                                 ),
-                                itemCount: hasPerroOhamburguesa2 ? 5 : 9,
-                                itemBuilder: (context, index) {
-                                  String title;
-                                  IconData icon;
-                                  bool isDelivered;
-                                  String attribute;
-
-                                  if (hasPerroOhamburguesa2) {
-                                    switch (index) {
-                                      case 0:
-                                        title = 'Perro o hamburguesa';
-                                        icon = Icons.fastfood;
-                                        isDelivered = responseData['perroOhamburguesa2'];
-                                        attribute = 'perroOhamburguesa2';
-                                        break;
-                                      case 1:
-                                        title = 'Gaseosa';
-                                        icon = Icons.local_drink;
-                                        isDelivered = responseData['gaseosa3'];
-                                        attribute = 'gaseosa3';
-                                        break;
-                                      case 2:
-                                        title = 'Helado';
-                                        icon = Icons.icecream;
-                                        isDelivered = responseData['helado3'];
-                                        attribute = 'helado3';
-                                        break;
-                                      case 3:
-                                        title = 'Empanada';
-                                        icon = Icons.fastfood;
-                                        isDelivered = responseData['empanada3'];
-                                        attribute = 'empanada3';
-                                        break;
-                                      case 4:
-                                        title = 'Postre';
-                                        icon = Icons.cake;
-                                        isDelivered = responseData['postre3'];
-                                        attribute = 'postre3';
-                                        break;
-                                      default:
-                                        return const SizedBox.shrink();
-                                    }
-                                  } else {
-                                    switch (index) {
-                                      case 0:
-                                        title = 'Almuerzo';
-                                        icon = Icons.restaurant;
-                                        isDelivered = responseData['almuerzo3'];
-                                        attribute = 'almuerzo3';
-                                        break;
-                                      case 1:
-                                        title = 'Gaseosa';
-                                        icon = Icons.local_drink_rounded;
-                                        isDelivered = responseData['gaseosa3'];
-                                        attribute = 'almuerzo3';
-                                        break;
-                                      case 2:
-                                        title = 'Cerveza';
-                                        icon = Icons.local_drink;
-                                        isDelivered = responseData['cerveza9'];
-                                        attribute = 'cerveza9';
-                                        break;
-                                      case 3:
-                                        title = 'Cerveza';
-                                        icon = Icons.local_drink;
-                                        isDelivered = responseData['cerveza10'];
-                                        attribute = 'cerveza10';
-                                        break;
-                                      case 4:
-                                        title = 'Cerveza';
-                                        icon = Icons.local_drink;
-                                        isDelivered = responseData['cerveza11'];
-                                        attribute = 'cerveza11';
-                                        break;
-                                      case 5:
-                                        title = 'Cerveza';
-                                        icon = Icons.local_drink;
-                                        isDelivered = responseData['cerveza12'];
-                                        attribute = 'cerveza12';
-                                        break;
-                                      case 6:
-                                        title = 'Helado';
-                                        icon = Icons.icecream;
-                                        isDelivered = responseData['helado3'];
-                                        attribute = 'helado3';
-                                        break;
-                                      case 7:
-                                        title = 'Empanada';
-                                        icon = Icons.fastfood;
-                                        isDelivered = responseData['empanada3'];
-                                        attribute = 'empanada3';
-                                        break;
-                                      case 8:
-                                        title = 'Postre';
-                                        icon = Icons.cake;
-                                        isDelivered = responseData['postre3'];
-                                        attribute = 'postre3';
-                                        break;
-                                      default:
-                                        return const SizedBox.shrink();
-                                    }
-                                  }
-
-                                  return GestureDetector(
-                                    onTap: () {
-                                      toggleAttribute(attribute);
-                                    },
-                                    child: CardAlimento(
-                                      title: title,
-                                      icon: icon,
-                                      isDelivered: isDelivered,
-                                      onTap: () {
-                                        toggleAttribute(attribute);
-                                      },
-                                    ),
-                                  );
-                                },
                               ),
-                            ),
+                              if (showSecondAccordionItem)
+                                AccordionSection(
+                                  isOpen: true,
+                                  header: Text('Acompañante (${hasPerroOhamburguesa ? 'niño' : 'adulto'})',
+                                    style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                                  ),
+                                  headerBackgroundColor: Colors.deepPurple,
+                                  contentBorderColor: Colors.deepPurple,
+                                  content: GridView.builder(
+                                    shrinkWrap: true,
+                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 13.0,
+                                      mainAxisSpacing: 13.0,
+                                    ),
+                                    itemCount: hasPerroOhamburguesa ? 5 : 9,
+                                    itemBuilder: (context, index) {
+                                      String title;
+                                      IconData icon;
+                                      bool isDelivered;
+                                      String attribute;
+                  
+                                      if (hasPerroOhamburguesa) {
+                                        switch (index) {
+                                          case 0:
+                                            title = 'Perro o hamburguesa';
+                                            icon = Icons.fastfood;
+                                            isDelivered = responseData['perroOhamburguesa1'];
+                                            attribute = 'perroOhamburguesa1';
+                                            break;
+                                          case 1:
+                                            title = 'Gaseosa';
+                                            icon = Icons.local_drink;
+                                            isDelivered = responseData['gaseosa2'];
+                                            attribute = 'gaseosa2';
+                                            break;
+                                          case 2:
+                                            title = 'Helado';
+                                            icon = Icons.icecream;
+                                            isDelivered = responseData['helado2'];
+                                            attribute = 'helado2';
+                                            break;
+                                          case 3:
+                                            title = 'Empanada';
+                                            icon = Icons.fastfood;
+                                            isDelivered = responseData['empanada2'];
+                                            attribute = 'empanada2';
+                                            break;
+                                          case 4:
+                                            title = 'Postre';
+                                            icon = Icons.cake;
+                                            isDelivered = responseData['postre2'];
+                                            attribute = 'postre2';
+                                            break;
+                                          default:
+                                            return const SizedBox.shrink();
+                                        }
+                                      } else {
+                                        switch (index) {
+                                          case 0:
+                                            title = 'Almuerzo';
+                                            icon = Icons.restaurant;
+                                            isDelivered = responseData['almuerzo2'];
+                                            attribute = 'almuerzo2';
+                                            break;
+                                          case 1:
+                                            title = 'Gaseosa';
+                                            icon = Icons.local_drink_rounded;
+                                            isDelivered = responseData['gaseosa2'];
+                                            attribute = 'almuerzo2';
+                                            break;
+                                          case 2:
+                                            title = 'Cerveza';
+                                            icon = Icons.local_drink;
+                                            isDelivered = responseData['cerveza5'];
+                                            attribute = 'cerveza5';
+                                            break;
+                                          case 3:
+                                            title = 'Cerveza';
+                                            icon = Icons.local_drink;
+                                            isDelivered = responseData['cerveza6'];
+                                            attribute = 'cerveza6';
+                                            break;
+                                          case 4:
+                                            title = 'Cerveza';
+                                            icon = Icons.local_drink;
+                                            isDelivered = responseData['cerveza7'];
+                                            attribute = 'cerveza7';
+                                            break;
+                                          case 5:
+                                            title = 'Cerveza';
+                                            icon = Icons.local_drink;
+                                            isDelivered = responseData['cerveza8'];
+                                            attribute = 'cerveza8';
+                                            break;
+                                          case 6:
+                                            title = 'Helado';
+                                            icon = Icons.icecream;
+                                            isDelivered = responseData['helado2'];
+                                            attribute = 'helado2';
+                                            break;
+                                          case 7:
+                                            title = 'Empanada';
+                                            icon = Icons.fastfood;
+                                            isDelivered = responseData['empanada2'];
+                                            attribute = 'empanada2';
+                                            break;
+                                          case 8:
+                                            title = 'Postre';
+                                            icon = Icons.cake;
+                                            isDelivered = responseData['postre2'];
+                                            attribute = 'postre2';
+                                            break;
+                                          default:
+                                            return const SizedBox.shrink();
+                                        }
+                                      }
+                  
+                                      return GestureDetector(
+                                        onTap: () {
+                                          toggleAttribute(attribute);
+                                        },
+                                          child: CardAlimento(
+                                            title: title,
+                                            icon: icon,
+                                            isDelivered: isDelivered,
+                                            onTap: () {
+                                              toggleAttribute(attribute);
+                                            },
+                                          ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              if (showSecondAccordionItem2)
+                                AccordionSection(
+                                  isOpen: true,
+                                  header: Text('Acompañante (${hasPerroOhamburguesa2 ? 'niño' : 'adulto'})',
+                                    style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                                  ),
+                                  headerBackgroundColor: Colors.deepPurple,
+                                  contentBorderColor: Colors.deepPurple,
+                                  content: GridView.builder(
+                                    shrinkWrap: true,
+                                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 13.0,
+                                      mainAxisSpacing: 13.0,
+                                    ),
+                                    itemCount: hasPerroOhamburguesa2 ? 5 : 9,
+                                    itemBuilder: (context, index) {
+                                      String title;
+                                      IconData icon;
+                                      bool isDelivered;
+                                      String attribute;
+                  
+                                      if (hasPerroOhamburguesa2) {
+                                        switch (index) {
+                                          case 0:
+                                            title = 'Perro o hamburguesa';
+                                            icon = Icons.fastfood;
+                                            isDelivered = responseData['perroOhamburguesa2'];
+                                            attribute = 'perroOhamburguesa2';
+                                            break;
+                                          case 1:
+                                            title = 'Gaseosa';
+                                            icon = Icons.local_drink;
+                                            isDelivered = responseData['gaseosa3'];
+                                            attribute = 'gaseosa3';
+                                            break;
+                                          case 2:
+                                            title = 'Helado';
+                                            icon = Icons.icecream;
+                                            isDelivered = responseData['helado3'];
+                                            attribute = 'helado3';
+                                            break;
+                                          case 3:
+                                            title = 'Empanada';
+                                            icon = Icons.fastfood;
+                                            isDelivered = responseData['empanada3'];
+                                            attribute = 'empanada3';
+                                            break;
+                                          case 4:
+                                            title = 'Postre';
+                                            icon = Icons.cake;
+                                            isDelivered = responseData['postre3'];
+                                            attribute = 'postre3';
+                                            break;
+                                          default:
+                                            return const SizedBox.shrink();
+                                        }
+                                      } else {
+                                        switch (index) {
+                                          case 0:
+                                            title = 'Almuerzo';
+                                            icon = Icons.restaurant;
+                                            isDelivered = responseData['almuerzo3'];
+                                            attribute = 'almuerzo3';
+                                            break;
+                                          case 1:
+                                            title = 'Gaseosa';
+                                            icon = Icons.local_drink_rounded;
+                                            isDelivered = responseData['gaseosa3'];
+                                            attribute = 'almuerzo3';
+                                            break;
+                                          case 2:
+                                            title = 'Cerveza';
+                                            icon = Icons.local_drink;
+                                            isDelivered = responseData['cerveza9'];
+                                            attribute = 'cerveza9';
+                                            break;
+                                          case 3:
+                                            title = 'Cerveza';
+                                            icon = Icons.local_drink;
+                                            isDelivered = responseData['cerveza10'];
+                                            attribute = 'cerveza10';
+                                            break;
+                                          case 4:
+                                            title = 'Cerveza';
+                                            icon = Icons.local_drink;
+                                            isDelivered = responseData['cerveza11'];
+                                            attribute = 'cerveza11';
+                                            break;
+                                          case 5:
+                                            title = 'Cerveza';
+                                            icon = Icons.local_drink;
+                                            isDelivered = responseData['cerveza12'];
+                                            attribute = 'cerveza12';
+                                            break;
+                                          case 6:
+                                            title = 'Helado';
+                                            icon = Icons.icecream;
+                                            isDelivered = responseData['helado3'];
+                                            attribute = 'helado3';
+                                            break;
+                                          case 7:
+                                            title = 'Empanada';
+                                            icon = Icons.fastfood;
+                                            isDelivered = responseData['empanada3'];
+                                            attribute = 'empanada3';
+                                            break;
+                                          case 8:
+                                            title = 'Postre';
+                                            icon = Icons.cake;
+                                            isDelivered = responseData['postre3'];
+                                            attribute = 'postre3';
+                                            break;
+                                          default:
+                                            return const SizedBox.shrink();
+                                        }
+                                      }
+                  
+                                      return GestureDetector(
+                                        onTap: () {
+                                          toggleAttribute(attribute);
+                                        },
+                                        child: CardAlimento(
+                                          title: title,
+                                          icon: icon,
+                                          isDelivered: isDelivered,
+                                          onTap: () {
+                                            toggleAttribute(attribute);
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                            ],
+                          ),
                         ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
           ],

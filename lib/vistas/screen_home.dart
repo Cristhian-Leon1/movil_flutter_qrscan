@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:movil_flutter_qrscan/vistas/widgets/boton_personalizable.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +11,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
+    final isLoading = context.watch<QRScannerProvider>().isLoading;
 
     return SafeArea(
       child: Scaffold(
@@ -37,7 +40,7 @@ class HomeScreen extends StatelessWidget {
                         const Icon(
                           Icons.qr_code_scanner,
                           size: 170,
-                          color: Colors.deepPurple,
+                          color: Colors.black54,
                         ),
                         const SizedBox(height: 20),
                         const Padding(
@@ -57,7 +60,9 @@ class HomeScreen extends StatelessWidget {
                           },
                         ),
                         const SizedBox(height: 20),
-                        BotonPersonalizable(
+                        isLoading
+                            ? const CircularProgressIndicator(color: Colors.blue)
+                            : BotonPersonalizable(
                           text: 'Verificar cantidad de alimentos',
                           color: Colors.white38,
                           onPressed: () {
@@ -78,6 +83,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+
 class BackgroundPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -86,22 +92,37 @@ class BackgroundPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), backgroundPaint);
 
-    final paint = Paint()
-      ..color = Colors.deepPurple
+    final paintYellow = Paint()
+      ..color = Colors.yellow
       ..style = PaintingStyle.fill;
 
-    final path1 = Path()
-      ..addOval(Rect.fromCircle(center: Offset(size.width * 0.2, size.height * 0.15), radius: 50))
-      ..addOval(Rect.fromCircle(center: Offset(size.width * 0.8, size.height * 0.22), radius: 70))
-      ..addOval(Rect.fromCircle(center: Offset(size.width * 0.25, size.height * 0.8), radius: 60));
+    final paintBlue = Paint()
+      ..color = Colors.blue
+      ..style = PaintingStyle.fill;
 
-    canvas.drawPath(path1, paint);
+    final paintRed = Paint()
+      ..color = Colors.red
+      ..style = PaintingStyle.fill;
 
-    final path2 = Path()
-      ..addOval(Rect.fromCircle(center: Offset(size.width * 0.6, size.height * 0.9), radius: 40))
-      ..addOval(Rect.fromCircle(center: Offset(size.width * 0.7, size.height * 0.7), radius: 50));
+    canvas.drawOval(
+      Rect.fromCircle(center: Offset(size.width * 0.2, size.height * 0.15), radius: 50),
+      paintYellow,
+    );
 
-    canvas.drawPath(path2, paint);
+    canvas.drawOval(
+      Rect.fromCircle(center: Offset(size.width * 0.8, size.height * 0.22), radius: 70),
+      paintBlue,
+    );
+
+    canvas.drawOval(
+      Rect.fromCircle(center: Offset(size.width * 0.25, size.height * 0.8), radius: 60),
+      paintRed,
+    );
+
+    canvas.drawOval(
+      Rect.fromCircle(center: Offset(size.width * 0.6, size.height * 0.9), radius: 40),
+      paintYellow,
+    );
   }
 
   @override

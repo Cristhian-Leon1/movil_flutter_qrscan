@@ -5,13 +5,46 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 
 class QRScannerProvider with ChangeNotifier {
   bool _isRequestInProgress = false;
+  bool _isLoading = false;
+
+  bool get isLoading => _isLoading;
+
+  void setLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
 
   void navigateToQRScanner(BuildContext context) {
     Navigator.pushNamed(context, '/scanner_screen');
   }
 
-  void navigateToVerificionScreen(BuildContext context) {
-    Navigator.pushNamed(context, '/verificacion_screen');
+  Future<void> navigateToVerificionScreen(BuildContext context) async {
+    setLoading(true);
+    try {
+      final response = await http.get(
+        Uri.parse('https://aplicativocomidasqr.onrender.com/users/countFoodAvailability'),
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> foodAvailability = json.decode(response.body);
+
+        if (context.mounted) {
+          Navigator.pushNamed(
+            context,
+            '/verificacion_screen',
+            arguments: {
+              'foodAvailability': foodAvailability,
+            },
+          );
+        }
+      } else {
+        print('Error en la petición: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error en la petición: $e');
+    } finally {
+      setLoading(false);
+    }
   }
 
   void handleQRCodeDetection(BuildContext context, BarcodeCapture barcodeCapture) async {
